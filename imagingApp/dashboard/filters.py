@@ -14,7 +14,7 @@ matplotlib.use('SVG')
 
 def load_and_preprocess_image():
     # Load image and preprocess
-    airballoon_path = "https://raw.githubusercontent.com/vrose99/image_processing_final/84a009197582e1b728d42896ed61070f27de6059/imagingApp/staticfiles/images/airballoons.jpg"
+    airballoon_path = "https://raw.githubusercontent.com/vrose99/image_analysis/master/imagingApp/staticfiles/images/airballoons.jpg"
     response = requests.get(airballoon_path)
     image_bytes = io.BytesIO(response.content)
     img = PIL.Image.open(image_bytes)
