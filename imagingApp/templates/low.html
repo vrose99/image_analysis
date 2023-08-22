@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding:10pt;" class="container">
+    <h1 class="text-center page_header">Lowpass Filters</h1>
+    <div class="row">
+        <div style="padding:10pt;" class="col-md">
+            <div style="height:75vh; overflow-y: scroll; padding-right: 1vw;">
+                    <p>
+                        Low-pass filters play a fundamental role in frequency analysis and image refinement. These filters allow the passage of lower-frequency elements while diminishing the intensity of higher-frequency components. The defining charactersistic of the "ideal" low-pass filter lies in its capacity to selectively retain and emphasize frequencies that fall below a predetermined threshold. This attribute becomes particularly significant when the objective involves preserving the overall tone of an image by blurring rapid transitions and intricate details. This can be very helpful in smoothing out subtle gradients or reducing noise.
+                        <br>
+                        However, one notable limitation of the ideal lowpass filter is a phenomenon called "smearing," where the transitions between features may become overly softened, potentially leading to a loss of fine detail and edge definition. This manifestation arises due to the gradual merging of nearby frequencies, erasing the crispness of transitions that were originally present. 
+                        <br>
+                        To mitigate the risk of such artifacts and achieve a balanced outcome, a gradual attenuation methodology can be leveraged. By acutely modulating the influence of higher frequencies, the Butterworth alternative provides an alternative to the ideal filter. You can compare the two in the interactive tutorial to the right. As you experiment with different cutoff values, examine how increasing the order of the Butterworth filter aligns its output more to that of the ideal filter.
+                    </p>
+            </div>
+        </div>
+        <div style="padding:10pt;" class="col-md">
+            <div class="row">
+                <img src="data:image/png;base64,{{ freq_img }}" alt="" height="200">
+            </div>
+            <br>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    {% if ideal == 1 %}
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Ideal Lowpass</button>
+                    {% else %}
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Ideal Lowpass</button>
+                    {% endif %}
+                </li>
+                <li class="nav-item" role="presentation">
+                    {% if ideal == 1 %}
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Butterworth Lowpass</button>
+                    {% else %}
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Butterworth Lowpass</button>
+                    {% endif %}
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+            {% if ideal == 1 %}
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% else %}
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ lp_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "lowpass" %}" method="post" name="lowPassForm" id="lowPassForm">
+                        {% csrf_token %}
+                        {{ lowpass_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+            {% if ideal == 1 %}
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% else %}
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ bp_low_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "lowpass" %}" method="post" name="bandPassForm" id="bandPassForm">
+                        {% csrf_token %}
+                        {{ butterworth_low_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
+{% endblock %}

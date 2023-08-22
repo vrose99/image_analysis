@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding:10pt;" class="container">
+    <h1 class="text-center page_header">Other Filters</h1>
+    <div class="row">
+        <div style="padding:10pt;" class="col-md">
+            <div style="height:75vh; overflow-y: scroll; padding-right: 1vw;">
+            <h3>Bandpass Filters</h2>
+            <div >
+                <p>
+                    Bandpass filters are invaluable tools for isolating specific frequency ranges of interest while simultaneously attenuating frequencies outside this range. Imagine the scenario of analyzing medical images to detect tumors or irregularities. Bandpass filters can be tailored to emphasize the frequencies corresponding to these specific features, enhancing their visibility against the background noise. This selective focus is equally relevant in tasks like texture analysis, where specific frequency bands reveal intricate patterns and structures within an image. By applying bandpass filters, analysts can effectively extract nuanced information, aiding in diagnostics, quality control, and scientific investigations.
+                </p>
+            </div>
+            <h3>Notch Filters</h2>
+            <div>
+                <p>
+                    Notch filters come into play when removing unwanted or interfering frequency components from an image. Consider the case of analyzing satellite imagery with artifacts caused by interference from specific sources, such as power lines or radio signals. By designing a notch filter to target the frequencies corresponding to these interferences, analysts can effectively suppress the unwanted elements, revealing the true underlying details of the scene. Similarly, in microscopy or astronomy, where images might contain undesirable artifacts or noise spikes due to instrumentation, notch filters can be employed to restore the visual accuracy and scientific integrity of the data.
+                </p>
+            </div>
+            <h3>Comb Filters</h2>
+            <div >
+                <p>
+                    Comb filters introduce a unique approach by combining multiple frequency bands with varying weightings. This technique finds relevance in artistic image manipulation, where creating distinctive visual effects or enhancing certain patterns is desired. For example, in creating stylized images, a comb filter could be applied to accentuate periodic structures in the image, giving rise to intriguing visual motifs. In graphic design and digital art, the controlled combination of frequency bands through comb filters can lead to captivating visual compositions with a touch of artistic flair.
+                </p>
+            </div>
+            </div>
+        </div>
+        <div style="padding:10pt;" class="col-md">
+            <div class="row">
+                <img src="data:image/png;base64,{{ freq_img }}" alt="" height="200">
+            </div>
+            <br>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    {% if filter_type == 0 %}
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#bp" type="button" role="tab" aria-controls="bp" aria-selected="true">Ideal Bandpass</button>
+                    {% else %}
+                        <button class="nav-link" id="bp-tab" data-bs-toggle="tab" data-bs-target="#bp" type="button" role="tab" aria-controls="bp" aria-selected="true">Bandpass</button>
+                    {% endif %}
+                </li>
+                <li class="nav-item" role="presentation">
+                    {% if filter_type == 1 %}
+                        <button class="nav-link active" id="notch-tab" data-bs-toggle="tab" data-bs-target="#notch" type="button" role="tab" aria-controls="notch" aria-selected="true">Notch</button>
+                    {% else %}
+                        <button class="nav-link" id="notch-tab" data-bs-toggle="tab" data-bs-target="#notch" type="button" role="tab" aria-controls="notch" aria-selected="true">Notch</button>
+                    {% endif %}
+                </li>
+                <li class="nav-item" role="presentation">
+                    {% if filter_type == 2 %}
+                        <button class="nav-link active" id="comb-tab" data-bs-toggle="tab" data-bs-target="#comb" type="button" role="tab" aria-controls="comb" aria-selected="true">Comb</button>
+                    {% else %}
+                        <button class="nav-link" id="comb-tab" data-bs-toggle="tab" data-bs-target="#comb" type="button" role="tab" aria-controls="comb" aria-selected="true">Comb</button>
+                    {% endif %}
+                </li>
+            </ul>
+        <div class="tab-content" id="myTabContent">
+            {% if filter_type == 0 %}
+            <div class="tab-pane fade show active" id="bp" role="tabpanel" aria-labelledby="bp-tab">
+            {% else %}
+            <div class="tab-pane fade" i id="bp" role="tabpanel" aria-labelledby="bp-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ bp_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "other" %}" method="post" name="bandpassForm" id="bandpassForm">
+                        {% csrf_token %}
+                        {{ bandpass_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+            {% if filter_type == 1 %}
+            <div class="tab-pane fade show active" id="notch" role="tabpanel" aria-labelledby="notch-tab">
+            {% else %}
+            <div class="tab-pane fade" i id="notch" role="tabpanel" aria-labelledby="notch-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ notch_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "other" %}" method="post" name="notchForm" id="notchForm">
+                        {% csrf_token %}
+                        {{ notch_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+            {% if filter_type == 2 %}
+            <div class="tab-pane fade show active" id="comb" role="tabpanel" aria-labelledby="comb-tab">
+            {% else %}
+            <div class="tab-pane fade" i id="comb" role="tabpanel" aria-labelledby="comb-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ comb_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "other" %}" method="post" name="combForm" id="combForm">
+                        {% csrf_token %}
+                        {{ comb_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
+{% endblock %}

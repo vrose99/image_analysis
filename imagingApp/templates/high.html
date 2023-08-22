@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding:10pt;" class="container">
+    <h1 class="text-center page_header">Highpass Filters</h1>
+    <div class="row">
+        <div style="padding:10pt;" class="col-md">
+            <div style="height:75vh; overflow-y: scroll; padding-right: 1vw;">
+                <p>
+                    Within the domain of image processing, high pass filters are foundational tools for frequency analysis and enhancement. These filters function as discriminative gatekeepers, enabling the amplification of higher-frequency features while removing lower-frequency components. The concept of the "ideal" high pass filter revolves around its ability to preserve and amplify frequencies that surpass a pre-defined cutoff point. This is particularly helpful in identifying abrupt transitions in an image, commonly encountered in features like edges. The application of high pass filters plays a pivotal role in image segmentation tasks, where the accurate delineation of essential features significantly contributes to effective image interpretation and analysis.
+                    <br>
+                    However, the endeavor of high pass filtering introduces challenges, and it is imperative to recognize and address potential artifacts that may arise. One such phenomenon is colloquially referred to as "ringing," which manifests as undulating oscillations in regions of the image that were initially devoid of rapid fluctuations. This artifact emerges due to the sudden and complete removal of frequencies beyond a specific threshold. Just as overseasoning a dish can impart unintended flavors, the abrupt elimination of certain frequencies results in a visual disturbance that disrupts the overall image coherency.
+                    <br>
+                    To limit the presence of these artifacts, a more nuanced approach is recommended. Instead of an abrupt excision of lower frequencies, a gradual attenuation strategy is adopted. This approach preserves the holistic integrity of the frequency spectrum and facilitates a seamless transition between frequency components. By delicately adjusting the contribution of lower frequencies, a graceful interplay between the high and low-frequency aspects of an image is achieved. This strategic course of action strikes a balance between maintaining image accuracy and enhancing distinct features, culminating in a visually pleasing and refined image representation that effectively combines precision and aesthetic appeal.
+                    <br>
+                    To explore these filters and this phenomena in greater detail, please try the demo out to the right.
+                </p>
+            </div>
+            
+        </div>
+        <div style="padding:10pt;" class="col-md">
+            <div class="row">
+                <img src="data:image/png;base64,{{ freq_img }}" alt="" height="200">
+            </div>
+            <br>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    {% if ideal == 1 %}
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Ideal Highpass</button>
+                    {% else %}
+                        <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Ideal Highpass</button>
+                    {% endif %}
+                </li>
+                <li class="nav-item" role="presentation">
+                    {% if ideal == 1 %}
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Butterworth Highpass</button>
+                    {% else %}
+                        <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Butterworth Highpass</button>
+                    {% endif %}
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+            {% if ideal == 1 %}
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% else %}
+            <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ hp_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "highpass" %}" method="post" name="highPassForm" id="highPassForm">
+                        {% csrf_token %}
+                        {{ highpass_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+            {% if ideal == 1 %}
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% else %}
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            {% endif %}
+                <div class="row">
+                    <img src="data:image/png;base64,{{ bp_data }}" alt="" height="250">
+                </div>
+                <div class="card card-body">
+                    <form action="{% url "highpass" %}" method="post" name="bandPassForm" id="bandPassForm">
+                        {% csrf_token %}
+                        {{ butterworth_form.as_p }}
+                        <input type="submit" value="OK">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+</div>
+
+
+{% endblock %}

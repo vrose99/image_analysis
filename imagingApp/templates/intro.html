@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding:10pt;" class="container">
+    <h1 class="text-center page_header">Introduction to Frequency Analysis</h1>
+    <div class="row">
+        <div style="padding:10pt;">
+            <div>
+                <p>
+                    Frequency domain analysis is essential to the field of image processing as it greatly simplifies the computational cost of applying filters. In the example of a simple low pass filter, a simple spatial blurring kernel must be convolved over all pixel indices and multiple mathematical operations must be performed to compute the transformed value of each pixel. However, if the same image is first transformed into a frequency domain, applying a low pass filter requires just a single multiplication for each point. The resulting frequency matrix can then be inverse Fourier transformed to unveil the blurred image. While the process of Fourier and inverse-Fourier transforms might first seem intimidating or complicated to many new learners, this process is incredibly fast with current computer science algorithms, much faster than spatial filters. 
+                    <br>
+                    It is essential for undergraduates is electrical engineering, computer science, and related fields to gain an intuitive understanding of how these filters operate in order to expertly apply them through courses in image analysis. However, as stated earlier, this understanding is not always so straightforward. For this reason, this online interactive website was created using a Django framework as well as opencv and matplotlib libraries to provide both information and interactive tutorials for new learners. This work builds from static tutorials such as <a href="https://homepages.inf.ed.ac.uk/rbf/HIPR2/">HIPR2</a>, a project created by the Department of Artificial Intelligence in the University of Edinburgh.
+                    <br>
+                    <div style="align-items: center;">
+                        <img style="width:35vw; margin-left: 30vw;" src="https://raw.githubusercontent.com/vrose99/image_processing_final/84a009197582e1b728d42896ed61070f27de6059/imagingApp/staticfiles/images/fft.png">
+                    </div>
+                </p>
+            </div>
+
+        </div>
+        
+    </div>
+    
+
+</div>
+
+
+
+{% endblock %}
